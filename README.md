@@ -81,12 +81,12 @@ _logger.Log(logLevel: LogLevel.Info, eventId: 1, state: logContextValues, except
 Determine scope for particular log items, if you don't want them to be visible from the outer space.
 
 ```csharp
-  LogContext.Current.AttachValue("1", 1);
-  using (LogContext.Current.CreateScope("2", 2))
-  {
-      Console.WriteLine(LogContext.Current.GetValues());
-      //Returns {"1", 1}, {"2", 2}
-  }
-  Console.WriteLine(LogContext.Current.GetValues());
-  //Returns {"1", 1}
+LogContext.Current.AttachValue("1", 1);
+using (LogContext.Current.CreateScope("2", 2))
+{
+    Console.WriteLine(LogContext.Current.GetValues());
+    //Returns {"1", 1}, {"2", 2}
+}
+Console.WriteLine(LogContext.Current.GetValues());
+//Returns {"1", 1}
 ```
