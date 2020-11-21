@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Bogus;
 using NUnit.Framework;
 
 namespace LogContext.Tests
@@ -9,20 +6,14 @@ namespace LogContext.Tests
     [TestFixture]
     public class TestContextScope
     {
-        [SetUp]
-        public void SetUp()
-        {
-            Randomizer.Seed = TestContext.CurrentContext.Random;
-        }
 
         [Test]
         public void CreateScope_ReturnsInitialValues()
         {
             var context = LogContext.CreateNewLogContext();
-            var faker = new Faker();
-            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
-            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
-            var pair2A = new KeyValuePair<string, object>(pair2.Key, faker.Random.Number(100));
+            var pair1 = new KeyValuePair<string, object>("1", 1);
+            var pair2 = new KeyValuePair<string, object>("2", 2);
+            var pair2A = new KeyValuePair<string, object>("2", 20);
             context.AttachValue(pair1);
             context.AttachValue(pair2);
             using (context.CreateScope(pair2A))
@@ -35,10 +26,9 @@ namespace LogContext.Tests
         public void CreateScope_RemoveInsideScope_ReturnsInitialValues()
         {
             var context = LogContext.CreateNewLogContext();
-            var faker = new Faker();
-            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
-            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
-            var pair2A = new KeyValuePair<string, object>(pair2.Key, faker.Random.Number(100));
+            var pair1 = new KeyValuePair<string, object>("1", 1);
+            var pair2 = new KeyValuePair<string, object>("2", 2);
+            var pair2A = new KeyValuePair<string, object>("2", 20);
             context.AttachValue(pair1);
             context.AttachValue(pair2);
             using (context.CreateScope(pair2A))
@@ -52,10 +42,9 @@ namespace LogContext.Tests
         public void CreateScope_AttachInsideScope_ReturnsInitialValues()
         {
             var context = LogContext.CreateNewLogContext();
-            var faker = new Faker();
-            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
-            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
-            var pair3 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
+            var pair1 = new KeyValuePair<string, object>("1", 1);
+            var pair2 = new KeyValuePair<string, object>("2", 2);
+            var pair3 = new KeyValuePair<string, object>("3", 3);
             context.AttachValue(pair1);
             using (context.CreateScope(pair2))
             {
