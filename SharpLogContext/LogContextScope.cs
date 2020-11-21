@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace LogContext
+namespace SharpLogContext
 {
     internal class LogContextScope : IDisposable
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace LogContext.Tests
+namespace SharpLogContext.Tests
 {
     [TestFixture]
     public class TestContextScope

@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
-    <PackageProjectUrl>https://github.com/Zelenov/LogContext</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Zelenov/SharpLogContext</PackageProjectUrl>
     <Version>0.0.2.0</Version>
     <Authors>Evgeny Zelenov</Authors>
     <Description>Stores log data throughout web request</Description>
@@ -23,7 +23,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile>LogContext.xml</DocumentationFile>
+    <DocumentationFile>SharpLogContext.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

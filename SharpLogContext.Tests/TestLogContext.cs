@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace LogContext.Tests
+namespace SharpLogContext.Tests
 {
     [TestFixture]
     [SingleThreaded]

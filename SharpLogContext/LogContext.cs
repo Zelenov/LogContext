@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 
-namespace LogContext
+namespace SharpLogContext
 {
     /// <summary>
     /// Stores dictionary-like data between all the components in the scope of one .NET Core request
