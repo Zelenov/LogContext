@@ -22,6 +22,7 @@ namespace LogContext
             _prevState = _keys.Where(k => prevValues.ContainsKey(k))
                .Select(k => new KeyValuePair<string, object>(k, prevValues[k]))
                .ToImmutableDictionary(p => p.Key, p => p.Value);
+            _parent.AttachValues(valuePairs);
         }
 
         public void Dispose()

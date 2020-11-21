@@ -21,8 +21,8 @@ namespace LogContext.Tests
         {
             LogContext.CreateNewLogContext();
             var faker = new Faker();
-            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number());
-            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number());
+            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
+            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
 
             async Task Foo()
             {
@@ -43,8 +43,8 @@ namespace LogContext.Tests
         {
             LogContext.CreateNewLogContext();
             var faker = new Faker();
-            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number());
-            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number());
+            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
+            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
 
             async void Foo()
             {
@@ -65,7 +65,7 @@ namespace LogContext.Tests
         {
             var context = LogContext.CreateNewLogContext();
             var faker = new Faker();
-            var pair = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number());
+            var pair = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
             context.AttachValue(pair);
             var actualValues = context.GetValues();
             var expectedValues = new[] {pair};
@@ -77,8 +77,8 @@ namespace LogContext.Tests
         {
             LogContext.CreateNewLogContext();
             var faker = new Faker();
-            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number());
-            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number());
+            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
+            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
 
             var e = new ManualResetEvent(false);
             var threadId1 = Thread.CurrentThread.ManagedThreadId;
@@ -103,8 +103,8 @@ namespace LogContext.Tests
         {
             LogContext.CreateNewLogContext();
             var faker = new Faker();
-            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number());
-            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number());
+            var pair1 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
+            var pair2 = new KeyValuePair<string, object>(faker.Lorem.Word(), faker.Random.Number(100));
 
             void Foo()
             {

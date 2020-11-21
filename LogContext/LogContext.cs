@@ -76,6 +76,35 @@ namespace LogContext
             new LogContextScope(this, keyValuePairs);
 
         /// <summary>
+        /// Attach values available only while result is not disposed
+        /// </summary>
+        /// <remarks>
+        /// All rewritten values would be restored on scope dispose
+        /// </remarks>
+        /// <returns>scope</returns>
+        public IDisposable CreateScope(KeyValuePair<string, object> keyValuePair) =>
+            CreateScope(new []{keyValuePair});
+
+        /// <summary>
+        /// Attach values available only while result is not disposed
+        /// </summary>
+        /// <remarks>
+        /// All rewritten values would be restored on scope dispose
+        /// </remarks>
+        /// <returns>scope</returns>
+        public IDisposable CreateScope(params ValueTuple<string, object>[] valueTuples) =>
+            CreateScope(valueTuples.Select(t => new KeyValuePair<string, object>(t.Item1, t.Item2)));
+        /// <summary>
+        /// Attach values available only while result is not disposed
+        /// </summary>
+        /// <remarks>
+        /// All rewritten values would be restored on scope dispose
+        /// </remarks>
+        /// <returns>scope</returns>
+        public IDisposable CreateScope(params Tuple<string, object>[] tuples) =>
+            CreateScope(tuples.Select(t => new KeyValuePair<string, object>(t.Item1, t.Item2)));
+
+        /// <summary>
         /// Attach values to the context dictionary
         /// </summary>
         public void AttachValues(IDictionary<string, object> dictionary)
