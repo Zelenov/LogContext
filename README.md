@@ -64,7 +64,8 @@ _logger.Log(logLevel: LogLevel.Info, eventId: 1, state: logContextValues, except
 <?xml version="1.0" encoding="utf-8"?>
 <nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <targets>
-    <target name="mainLogFile" xsi:type="File">
+    <target name="mainLogFile" xsi:type="File"
+      fileName="${basedir}/logs/${shortdate}/${logger}.json">
       <layout xsi:type="JsonLayout">
         <attribute layout="${event-properties:foo}" name="foo"/>
       </layout>
