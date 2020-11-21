@@ -49,10 +49,9 @@ Extract `LogContext` items when you need to log them
 using Microsoft.Extensions.Logging;
 ...
 
-private readonly ILogger<ImageProcessor> _logger;
+private readonly ILogger _logger;
 
 ...
-
 var logContextValues = LogContext.Current.GetValues();
 _logger.Log(logLevel: LogLevel.Info, eventId: 1, state: logContextValues, exception: null,
                 formatter: (_, __) => "Log message");
