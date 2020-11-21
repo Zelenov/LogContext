@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace SharpLogContext.Tests
@@ -53,6 +54,5 @@ namespace SharpLogContext.Tests
             }
             CollectionAssert.AreEquivalent(new[] { pair1, pair3 }, context.GetValues());
         }
-
     }
 }
