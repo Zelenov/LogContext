@@ -1,7 +1,7 @@
 # SharpLogContext
 Stores log data throughout web request.
 
-#Getting job done
+## Getting job done
 
 Add `app.UseLogContext()` in the beginning of request pipeline in `Startup.cs`
 ```csharp
@@ -43,7 +43,7 @@ public class FooMiddleware
 }
 ```
 
-#Log it!
+## Log it!
 Extract `LogContext` items when you need to log them
 ```csharp
 using Microsoft.Extensions.Logging;
@@ -58,7 +58,7 @@ _logger.Log(logLevel: LogLevel.Info, eventId: 1, state: logContextValues, except
                 formatter: (_, __) => "Log message");
 ```
 
-#Scopes
+## Scopes
 Determine scope for particular log items, if you don't want them to be visible for the outer space.
 
 ```csharp
