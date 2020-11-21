@@ -58,6 +58,25 @@ _logger.Log(logLevel: LogLevel.Info, eventId: 1, state: logContextValues, except
                 formatter: (_, __) => "Log message");
 ```
 
+## Print your log items pretty 
+### NLog
+`NLog.config` example
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <targets>
+    <target name="mainLogFile" xsi:type="File">
+      <layout xsi:type="JsonLayout">
+        <attribute layout="${event-properties:foo}" name="foo"/>
+      </layout>
+    </target>
+  </targets>
+  <rules>
+    <logger minlevel="Trace" name="*" writeTo="mainLogFile"/>
+  </rules>
+</nlog>
+```
+
 ## Scopes
 Determine scope for particular log items, if you don't want them to be visible from the outer space.
 
