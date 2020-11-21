@@ -59,7 +59,7 @@ _logger.Log(logLevel: LogLevel.Info, eventId: 1, state: logContextValues, except
 ```
 
 ## Scopes
-Determine scope for particular log items, if you don't want them to be visible for the outer space.
+Determine scope for particular log items, if you don't want them to be visible from the outer space.
 
 ```csharp
   LogContext.Current.AttachValue("1", 1);
