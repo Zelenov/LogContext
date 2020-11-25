@@ -7,7 +7,7 @@ namespace SharpLogContext.Tests
 {
     [TestFixture]
     [SingleThreaded]
-    public class TestSqlBuilder
+    public class TestLogContext
     {
         [Test]
         public async Task AttachValue_AsyncTask_ReturnsInitial()
@@ -32,46 +32,52 @@ namespace SharpLogContext.Tests
         [Test]
         public async Task AttachValue_AsyncTaskOuterScope_DoesntGoToOuterScope()
         {
-            var pair1 = new KeyValuePair<string, object>("1", 1);
-            var pair2 = new KeyValuePair<string, object>("2", 2);
-
-            async Task Foo()
+            using (ExecutionContext.SuppressFlow())
             {
-                await Task.CompletedTask;
-                LogContext.Current.AttachValue(pair2);
-                await Task.CompletedTask;
-            }
+                var pair1 = new KeyValuePair<string, object>("1", 1);
+                var pair2 = new KeyValuePair<string, object>("2", 2);
 
-            await Foo();
-            LogContext.Current.AttachValue(pair1);
-            var actualValues = LogContext.Current.GetValues();
-            var expectedValues = new[] {pair1};
-            CollectionAssert.AreEquivalent(expectedValues, actualValues);
+                async Task Foo()
+                {
+                    await Task.CompletedTask;
+                    LogContext.Current.AttachValue(pair2);
+                    await Task.CompletedTask;
+                }
+
+                await Foo();
+                LogContext.Current.AttachValue(pair1);
+                var actualValues = LogContext.Current.GetValues();
+                var expectedValues = new[] {pair1};
+                CollectionAssert.AreEquivalent(expectedValues, actualValues);
+            }
         }
         [Test]
         public void AttachValue_AsyncTaskLevels_DoesntGoToOuterScope()
         {
-            var pair1 = new KeyValuePair<string, object>("1", 1);
-
-            async Task Thing1()
+            using (ExecutionContext.SuppressFlow())
             {
-                await Thing2();
-                CollectionAssert.AreEquivalent(new KeyValuePair<string, object>[0], LogContext.Current.GetValues());
-            }
+                var pair1 = new KeyValuePair<string, object>("1", 1);
 
-            async Task Thing2()
-            {
-                SetValue();
-                CollectionAssert.AreEquivalent(new []{pair1}, LogContext.Current.GetValues());
-                await Task.CompletedTask;
-            }
+                async Task Thing1()
+                {
+                    await Thing2();
+                    CollectionAssert.AreEquivalent(new KeyValuePair<string, object>[0], LogContext.Current.GetValues());
+                }
 
-            void SetValue()
-            {
-                LogContext.Current.AttachValue(pair1);
-            }
+                async Task Thing2()
+                {
+                    SetValue();
+                    CollectionAssert.AreEquivalent(new[] {pair1}, LogContext.Current.GetValues());
+                    await Task.CompletedTask;
+                }
 
-            Thing1().GetAwaiter().GetResult();
+                void SetValue()
+                {
+                    LogContext.Current.AttachValue(pair1);
+                }
+
+                Thing1().GetAwaiter().GetResult();
+            }
         }
 
         [Test]

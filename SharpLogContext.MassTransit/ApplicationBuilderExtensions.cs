@@ -10,7 +10,7 @@ namespace SharpLogContext.MassTransit
     {
         public static IBusControl AddLogContext(this IBusControl busControl)
         {
-            var observer = new ReceiveObserver();
+            var observer = new LogContextObserver();
             busControl.ConnectReceiveObserver(observer);
             return busControl;
         }
