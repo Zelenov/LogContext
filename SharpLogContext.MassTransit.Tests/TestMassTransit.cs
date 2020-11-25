@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 using MassTransit.Testing;
-using Microsoft.Win32.SafeHandles;
 using NUnit.Framework;
 
 namespace SharpLogContext.MassTransit.Tests
@@ -44,9 +41,9 @@ namespace SharpLogContext.MassTransit.Tests
         [Test]
         public async Task MassTransit_Consume_WithLogContext_Returns2Pairs()
         {
-            var harness = new InMemoryTestHarness();
+               var harness = new InMemoryTestHarness();
             var consumerHarness = harness.Consumer<ExpectedContextConsumer>();
-            await harness.Start();
+            await harness.Start();  
             harness.BusControl.AddLogContext();
             try
             {

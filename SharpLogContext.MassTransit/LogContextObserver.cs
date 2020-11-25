@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MassTransit;
 namespace SharpLogContext.MassTransit
 {
-    public class LogContextObserver : IReceiveObserver
+    internal class LogContextObserver : IReceiveObserver
     {
         public Task PreReceive(ReceiveContext context)
         {

@@ -1,7 +1,7 @@
 # Changelog
-## SharLogContext.MassTransit 4.0.0
+## SharpLogContext.MassTransit 4.0.0
 ### Added
-Works with MassTransit 4.0.0 - 6.3.2
+Works with MassTransit 4.0.0 - 7.0.2
 
 ## 1.0.0
 ### Added
