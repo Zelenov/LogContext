@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLogContext", "SharpLog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLogContext.Tests", "SharpLogContext.Tests\SharpLogContext.Tests.csproj", "{589BD812-01B5-4466-8B3B-FFDB91CA4C80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpLogContext.MassTransit", "SharpLogContext.MassTransit\SharpLogContext.MassTransit.csproj", "{3387D6A6-CF82-4CFD-95E3-E8692D50E651}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpLogContext.MassTransit.Tests", "SharpLogContext.MassTransit.Tests\SharpLogContext.MassTransit.Tests.csproj", "{0103D0C7-73DF-4235-BB31-8FE5E059CEE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{589BD812-01B5-4466-8B3B-FFDB91CA4C80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{589BD812-01B5-4466-8B3B-FFDB91CA4C80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{589BD812-01B5-4466-8B3B-FFDB91CA4C80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3387D6A6-CF82-4CFD-95E3-E8692D50E651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3387D6A6-CF82-4CFD-95E3-E8692D50E651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3387D6A6-CF82-4CFD-95E3-E8692D50E651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3387D6A6-CF82-4CFD-95E3-E8692D50E651}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0103D0C7-73DF-4235-BB31-8FE5E059CEE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0103D0C7-73DF-4235-BB31-8FE5E059CEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0103D0C7-73DF-4235-BB31-8FE5E059CEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0103D0C7-73DF-4235-BB31-8FE5E059CEE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

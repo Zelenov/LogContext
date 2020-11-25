@@ -90,3 +90,26 @@ using (LogContext.Current.CreateScope("2", 2))
 Console.WriteLine(LogContext.Current.GetValues());
 //Returns {"1", 1}
 ```
+
+# SharpLogContext.MassTransit
+Stores log data throughout MassTransit consumer message processing
+
+Call `.AddLogContext()` on your `IBusControl`
+
+```csharp
+var bus = Bus.Factory.CreateUsingInMemory(...);
+bus.AddLogContext();
+await bus.StartAsync();
+```
+
+And start using `LogContext`
+```csharp
+class FooConsumer : IConsumer<Foo>
+{
+    public async Task Consume(ConsumeContext<Foo> context)
+    {
+        LogContext.Current.AttachValue("foo", 1);
+    }
+}
+```
+

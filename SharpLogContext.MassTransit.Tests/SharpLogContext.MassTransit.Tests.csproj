@@ -22,10 +22,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+    <PackageReference Include="MassTransit" Version="7.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharpLogContext\SharpLogContext.csproj" />
+    <ProjectReference Include="..\SharpLogContext.MassTransit\SharpLogContext.MassTransit.csproj" />
   </ItemGroup>
 
 </Project>
