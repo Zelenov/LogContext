@@ -32,7 +32,7 @@
 
   <ItemGroup>
     <PackageReference Include="SharpLogContext" Version="0.0.2" />
-    <PackageReference Include="MassTransit" Version="4.0.0" />
+    <PackageReference Include="MassTransit" Version="[4.0.0, 6.3.2]" />
   </ItemGroup>
 
 </Project>
