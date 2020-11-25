@@ -29,55 +29,54 @@ namespace SharpLogContext.Tests
             var expectedValues = new[] {pair1, pair2};
             CollectionAssert.AreEquivalent(expectedValues, actualValues);
         }
+
         [Test]
         public async Task AttachValue_AsyncTaskOuterScope_DoesntGoToOuterScope()
         {
-            using (ExecutionContext.SuppressFlow())
+            LogContext.Clear();
+            var pair1 = new KeyValuePair<string, object>("1", 1);
+            var pair2 = new KeyValuePair<string, object>("2", 2);
+
+            async Task Foo()
             {
-                var pair1 = new KeyValuePair<string, object>("1", 1);
-                var pair2 = new KeyValuePair<string, object>("2", 2);
-
-                async Task Foo()
-                {
-                    await Task.CompletedTask;
-                    LogContext.Current.AttachValue(pair2);
-                    await Task.CompletedTask;
-                }
-
-                await Foo();
-                LogContext.Current.AttachValue(pair1);
-                var actualValues = LogContext.Current.GetValues();
-                var expectedValues = new[] {pair1};
-                CollectionAssert.AreEquivalent(expectedValues, actualValues);
+                await Task.CompletedTask;
+                LogContext.Current.AttachValue(pair2);
+                await Task.CompletedTask;
             }
+
+            await Foo();
+            LogContext.Current.AttachValue(pair1);
+            var actualValues = LogContext.Current.GetValues();
+            var expectedValues = new[] {pair1};
+            CollectionAssert.AreEquivalent(expectedValues, actualValues);
         }
+
         [Test]
         public void AttachValue_AsyncTaskLevels_DoesntGoToOuterScope()
         {
-            using (ExecutionContext.SuppressFlow())
+            LogContext.Clear();
+            var pair1 = new KeyValuePair<string, object>("1", 1);
+
+            async Task Thing1()
             {
-                var pair1 = new KeyValuePair<string, object>("1", 1);
-
-                async Task Thing1()
-                {
-                    await Thing2();
-                    CollectionAssert.AreEquivalent(new KeyValuePair<string, object>[0], LogContext.Current.GetValues());
-                }
-
-                async Task Thing2()
-                {
-                    SetValue();
-                    CollectionAssert.AreEquivalent(new[] {pair1}, LogContext.Current.GetValues());
-                    await Task.CompletedTask;
-                }
-
-                void SetValue()
-                {
-                    LogContext.Current.AttachValue(pair1);
-                }
-
-                Thing1().GetAwaiter().GetResult();
+                await Thing2();
+                CollectionAssert.AreEquivalent(new KeyValuePair<string, object>[0], LogContext.Current.GetValues());
             }
+
+            async Task Thing2()
+            {
+                SetValue();
+                CollectionAssert.AreEquivalent(new[] {pair1}, LogContext.Current.GetValues());
+                await Task.CompletedTask;
+            }
+
+            void SetValue()
+            {
+                LogContext.Current.AttachValue(pair1);
+            }
+
+            Thing1().GetAwaiter().GetResult();
+
         }
 
         [Test]

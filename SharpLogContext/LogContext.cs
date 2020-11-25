@@ -23,6 +23,18 @@ namespace SharpLogContext
         private LogContext()
         {
         }
+
+        /// <summary>
+        /// Clears context
+        /// </summary>
+        public static void Clear()
+        {
+            lock (Lock)
+            {
+                CurrentLogContext.Value = null;
+            }
+        }
+
         /// <summary>
         /// Current log context for the request
         /// </summary>
