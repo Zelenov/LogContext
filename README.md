@@ -1,13 +1,13 @@
 # SharpLogContext
-Stores log data throughout web request.
-</br>
 ![SharpLogContext Icon][SharpLogContext.icon]
+</br>
+Stores log data
 
-| Description | Package |
-| ------------ | ----------- |
-| Main Package | [SharpLogContext][SharpLogContext.nuget] |
-| ASP.NetCore | [SharpLogContext.NetCore][SharpLogContext.NetCore.nuget] |
-| MassTransit | [SharpLogContext.MassTransit][SharpLogContext.MassTransit.nuget] |
+| Name | Package | Description |
+| ------------ | ----------- | ----------- |
+| Main Package | [SharpLogContext][SharpLogContext.nuget] | Stores log data throught async calls and threads |
+| ASP.NetCore | [SharpLogContext.NetCore][SharpLogContext.NetCore.nuget] | Stores log data throught async web request |
+| MassTransit | [SharpLogContext.MassTransit][SharpLogContext.MassTransit.nuget] | Stores log data throught consumer message processing |
 
 
 ## Getting job done
