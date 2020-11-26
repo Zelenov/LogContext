@@ -1,5 +1,6 @@
 # SharpLogContext
 Stores log data throughout web request.
+</br>
 ![SharpLogContext Icon][SharpLogContext.icon]
 
 | Description | Package |
@@ -121,7 +122,7 @@ class FooConsumer : IConsumer<Foo>
 }
 ```
 
-[SharpLogContext.icon]: icon.png "SharpLogContext Icon"
+[SharpLogContext.icon]: icon_small.png "SharpLogContext Icon"
 [SharpLogContext.nuget]: https://www.nuget.org/packages/SharpLogContext
 [SharpLogContext.NetCore.nuget]: https://www.nuget.org/packages/SharpLogContext.NetCore
 [SharpLogContext.MassTransit.nuget]: https://www.nuget.org/packages/SharpLogContext.MassTransit
