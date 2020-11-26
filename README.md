@@ -1,6 +1,13 @@
 # SharpLogContext
 Stores log data throughout web request.
 
+| Description | Package |
+| ------------ | ----------- |
+| Main Package | [SharpLogContext][SharpLogContext.nuget] |
+| ASP.NetCore | [SharpLogContext.NetCore][SharpLogContext.NetCore.nuget] |
+| MassTransit | [SharpLogContext.MassTransit][SharpLogContext.MassTransit.nuget] |
+
+
 ## Getting job done
 
 Add `app.UseLogContext()` in the beginning of request pipeline in `Startup.cs`

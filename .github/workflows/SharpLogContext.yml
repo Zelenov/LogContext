@@ -39,3 +39,12 @@ jobs:
 
         # API key to authenticate with NuGet server
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+    - name: publish SharpLogContext.NetCore on version change
+      id: publish_nuget_3
+      uses: rohith/publish-nuget@v2
+      with:
+        # Filepath of the project to be packaged, relative to root of repository
+        PROJECT_FILE_PATH: SharpLogContext.NetCore/SharpLogContext.NetCore.csproj
+
+        # API key to authenticate with NuGet server
+        NUGET_KEY: ${{secrets.NUGET_API_KEY}}

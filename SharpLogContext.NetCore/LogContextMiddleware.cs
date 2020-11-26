@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace SharpLogContext
+namespace SharpLogContext.NetCore
 {
     public class LogContextMiddleware
     {
