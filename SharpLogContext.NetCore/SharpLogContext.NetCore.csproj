@@ -6,7 +6,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <PackageProjectUrl>https://github.com/Zelenov/SharpLogContext</PackageProjectUrl>
-    <Version>1.0.0.0</Version>
+    <Version>2.0.0.0</Version>
     <Authors>Evgeny Zelenov</Authors>
     <Description>Stores log data throughout web request</Description>
     <PackageTags>asynclocal, log, context, scope, .net core, data</PackageTags>
@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SharpLogContext" Version="0.0.2" />
+    <PackageReference Include="SharpLogContext" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
   </ItemGroup>
