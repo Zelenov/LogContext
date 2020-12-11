@@ -10,7 +10,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <PackageProjectUrl>https://github.com/Zelenov/SharpLogContext</PackageProjectUrl>
-    <Version>7.0.3.0</Version>
+    <Version>7.0.4.0</Version>
     <Authors>Evgeny Zelenov</Authors>
     <Description>Stores log data throughout mass transit ConsumeContext</Description>
     <PackageTags>asynclocal, log, context, scope, .net core, data, masstransit, rabbitmq, message, bus, ConsumeContext</PackageTags>

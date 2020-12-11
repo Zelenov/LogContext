@@ -110,6 +110,17 @@ var bus = Bus.Factory.CreateUsingInMemory(...);
 bus.AddLogContext();
 await bus.StartAsync();
 ```
+or on any `IBusFactoryConfigurator`
+```csharp
+services.AddMassTransit(x =>
+{
+  x.UsingInMemory((context, cfg) =>
+  {
+    cfg.ConfigureEndpoints(context);
+    cfg.AddLogContext();
+  });
+}
+```
 
 And start using `LogContext`
 ```csharp

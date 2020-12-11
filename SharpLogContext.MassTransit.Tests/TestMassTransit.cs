@@ -41,7 +41,7 @@ namespace SharpLogContext.MassTransit.Tests
         [Test]
         public async Task MassTransit_Consume_WithLogContext_Returns2Pairs()
         {
-               var harness = new InMemoryTestHarness();
+            var harness = new InMemoryTestHarness();
             var consumerHarness = harness.Consumer<ExpectedContextConsumer>();
             await harness.Start();  
             harness.BusControl.AddLogContext();
