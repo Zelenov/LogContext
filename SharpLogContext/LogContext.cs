@@ -13,7 +13,7 @@ namespace SharpLogContext
     /// Remember to call <see cref="CreateNewLogContext"/>
     /// to get rid of conflicts between different requests accessing the same context
     /// </summary>
-    public class LogContext: ILogContext
+    public class LogContext: IScopedLogContext
     {
         private static readonly object Lock = new object();
         private static readonly AsyncLocal<LogContext> CurrentLogContext = new AsyncLocal<LogContext>();
@@ -118,6 +118,14 @@ namespace SharpLogContext
         /// <returns>scope</returns>
         public IDisposable CreateScope(params Tuple<string, object>[] tuples) =>
             CreateScope(tuples.Select(t => new KeyValuePair<string, object>(t.Item1, t.Item2)));
+
+
+        public IDisposable CreateScope(Action<ILogContext> buildContextAction)
+        {
+            var tempLogContext = new LogContext();
+            buildContextAction?.Invoke(tempLogContext);
+            return CreateScope(tempLogContext);
+        }
 
         /// <summary>
         /// Attach values to the context dictionary
