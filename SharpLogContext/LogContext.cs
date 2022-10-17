@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -9,16 +10,18 @@ namespace SharpLogContext
 {
     /// <summary>
     /// Stores dictionary-like data between all the components in the scope of one .NET Core request
-    /// Remember to call <see cref="ApplicationBuilderExtensions.UseLogContext"/> or <see cref="CreateNewLogContext"/>
+    /// Remember to call <see cref="CreateNewLogContext"/>
     /// to get rid of conflicts between different requests accessing the same context
     /// </summary>
-    public class LogContext
+    public class LogContext: ILogContext
     {
         private static readonly object Lock = new object();
         private static readonly AsyncLocal<LogContext> CurrentLogContext = new AsyncLocal<LogContext>();
 
-        private readonly Lazy<ConcurrentDictionary<string, object>> _attachedValues =
-            new Lazy<ConcurrentDictionary<string, object>>(() => new ConcurrentDictionary<string, object>());
+        private readonly Lazy<IDictionary<string, object>> _attachedValues =
+            new Lazy<IDictionary<string, object>>(() => new ConcurrentDictionary<string, object>());
+
+        private IDictionary<string, object> LogContextImplementation => _attachedValues.Value;
 
         private LogContext()
         {
@@ -157,7 +160,7 @@ namespace SharpLogContext
                 var key = keyValuePair.Key;
                 var value = keyValuePair.Value;
                 if (!string.IsNullOrWhiteSpace(key))
-                    _attachedValues.Value.AddOrUpdate(key, value, (k, oldValue) => value);
+                    LogContextImplementation[key] = value;
             }
         }
 
@@ -202,13 +205,13 @@ namespace SharpLogContext
                 throw new ArgumentException(nameof(keys));
             foreach (var key in keys)
                 if (!string.IsNullOrWhiteSpace(key))
-                    _attachedValues.Value.TryRemove(key, out _);
+                    LogContextImplementation.Remove(key);
         }
 
         /// <summary>
         /// Retrieve all values from the dictionary
         /// </summary>
-        public ImmutableDictionary<string, object> GetValues() => _attachedValues.Value.ToImmutableDictionary();
+        public ImmutableDictionary<string, object> GetValues() => LogContextImplementation.ToImmutableDictionary();
 
         /// <summary>
         /// Retrieve value from the dictionary
@@ -220,11 +223,36 @@ namespace SharpLogContext
             return res;
         }
 
+        public void Add(string key, object value)
+        {
+            LogContextImplementation.Add(key, value);
+        }
+
+        public bool ContainsKey(string key)
+        {
+            return LogContextImplementation.ContainsKey(key);
+        }
+
+        public bool Remove(string key)
+        {
+            return LogContextImplementation.Remove(key);
+        }
+
         /// <summary>
         /// Try retrieve all values from the dictionary
         /// </summary>
         /// <returns>true if value with <see cref="key"/> exists, default otherwise</returns>
-        public bool TryGetValue(string key, out object value) => _attachedValues.Value.TryGetValue(key, out value);
+        public bool TryGetValue(string key, out object value) => LogContextImplementation.TryGetValue(key, out value);
+
+        public object this[string key]
+        {
+            get => LogContextImplementation[key];
+            set => LogContextImplementation[key] = value;
+        }
+
+        public ICollection<string> Keys => LogContextImplementation.Keys;
+
+        public ICollection<object> Values => LogContextImplementation.Values;
 
         /// <summary>
         /// Retrieve value from the dictionary and cast it to <see cref="T"/>
@@ -237,5 +265,44 @@ namespace SharpLogContext
 
             return value is T value1 ? value1 : default;
         }
+
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        {
+            return LogContextImplementation.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)LogContextImplementation).GetEnumerator();
+        }
+
+        public void Add(KeyValuePair<string, object> item)
+        {
+            LogContextImplementation.Add(item);
+        }
+
+        void ICollection<KeyValuePair<string, object>>.Clear()
+        {
+            LogContextImplementation.Clear();
+        }
+
+        public bool Contains(KeyValuePair<string, object> item)
+        {
+            return LogContextImplementation.Contains(item);
+        }
+
+        public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
+        {
+            LogContextImplementation.CopyTo(array, arrayIndex);
+        }
+
+        public bool Remove(KeyValuePair<string, object> item)
+        {
+            return LogContextImplementation.Remove(item);
+        }
+
+        public int Count => LogContextImplementation.Count;
+
+        public bool IsReadOnly => LogContextImplementation.IsReadOnly;
     }
 }
