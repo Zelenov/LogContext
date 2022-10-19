@@ -9,6 +9,12 @@ public interface IScopeConstructor
     /// Adds temporary values to the output of <see cref="IGlobalLogContext.GetValues"/> method.
     /// Previous values are restored after disposing of context.
     /// </summary>
+    IScopedLogContext CreateScope();
+
+    /// <summary>
+    /// Adds temporary values to the output of <see cref="IGlobalLogContext.GetValues"/> method.
+    /// Previous values are restored after disposing of context.
+    /// </summary>
     IScopedLogContext CreateScope(string key, object value);
 
 

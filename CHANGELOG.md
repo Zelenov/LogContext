@@ -1,5 +1,11 @@
 # Changelog
 
+## SharpLogContext V3.0.1
+### Added
+LogContext.CreateScope() method without parameters
+### Fixed
+Removed unnecessary nuget package
+
 ## SharpLogContext.MassTransit V7.0.5
 ### Added
 SharpLogContext V3.0.0 support

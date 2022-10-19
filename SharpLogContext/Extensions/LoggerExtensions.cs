@@ -394,7 +394,7 @@ public static class LoggerExtensions
     }
 
     //------------------------------------------HELPERS------------------------------------------//
-    private static string MessageFormatter(FormattedLogValues state, Exception? error)
+    private static string MessageFormatter(FormattedLogValues state, Exception error)
     {
         return state.ToString();
     }

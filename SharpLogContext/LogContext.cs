@@ -67,10 +67,12 @@ public class LogContext: ILogContext, IScopeConstructor, IGlobalLogContext
         }
     }
 
-    public IScopedLogContext CreateScope(string key, object value)
-    {
-        return CreateScope(new[] {new KeyValuePair<string, object>(key, value)});
-    }
+    public IScopedLogContext CreateScope() => 
+        CreateScope(buildContextAction: null);
+
+    public IScopedLogContext CreateScope(string key, object value) => 
+        CreateScope(new[] { new KeyValuePair<string, object>(key, value) });
+
     public IScopedLogContext CreateScope(IEnumerable<KeyValuePair<string, object>> keyValuePairs) =>
         CreateScope(keyValuePairs.ToDictionary(x=>x.Key, x=>x.Value));
 
