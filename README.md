@@ -6,15 +6,14 @@ SharpLogContext encapsulates Microsoft's logger scopes mechanism, giving more fr
 | Name | Package | Description |
 | ------------ | ----------- | ----------- |
 | Main Package | [SharpLogContext][SharpLogContext.nuget] | Stores log data throught async calls and threads |
-| ASP.NetCore | [SharpLogContext.NetCore][SharpLogContext.NetCore.nuget] | Stores log data throught async web request |
-| MassTransit | [SharpLogContext.MassTransit][SharpLogContext.MassTransit.nuget] | Stores log data throught consumer message processing |
+| ASP.NetCore | [SharpLogContext.NetCore][SharpLogContext.NetCore.nuget] | Initializes `SharpLogContext` for all HTTP requests |
+| MassTransit | [SharpLogContext.MassTransit][SharpLogContext.MassTransit.nuget] | Initializes `SharpLogContext` before message processing |
 
 
 ## How it works
 
-SharpLogContext adds static class `LogContext` with `AsyncLocal` rot context.<br/><br/>
-Initialize it by calling `LogContext.Initialize()`.<br/><br/>
-After that, you can access log items anywhere the `Initialize` method.<br/><br/>
+SharpLogContext adds static class `LogContext` with `AsyncLocal` root context.<br/>Initialize it by calling `LogContext.Initialize()`.<br/><br/>
+
 Unlike logging scopes, sharing values only with the underlying calls, `LogContext` items can be accessed from the outside, even in exception handlers and .NET Core middleware.
 ```csharp
 public void Foo()
@@ -35,7 +34,7 @@ public void Foo()
 
 ## Log it!
 Use `SharpLogContext` logger extensions methods to attach log context items to your log messages.
-They end up with `Scoped` suffix;
+Method names end with `Scoped` suffix;
 ```csharp
 using Microsoft.Extensions.Logging;
 using SharpLogContext;
@@ -49,7 +48,7 @@ _logger.LogDebugScoped("Log message");
 ```
 
 ## Scopes
-Determine scope for particular log items, if you don't want them to be visible from the outer space.
+Determine scope for particular log items if you don't want them to be visible from the outer space.
 Use `LogContext.Current.CreateScope()` method;
 
 ```csharp
