@@ -1,7 +1,7 @@
 # SharpLogContext
 ![SharpLogContext Icon][SharpLogContext.icon]
 </br>
-Stores log data
+SharpLogContext encapsulates Microsoft's logger scopes mechanism, giving more freedom in scopes' lifetime management.
 
 | Name | Package | Description |
 | ------------ | ----------- | ----------- |
@@ -10,60 +10,57 @@ Stores log data
 | MassTransit | [SharpLogContext.MassTransit][SharpLogContext.MassTransit.nuget] | Stores log data throught consumer message processing |
 
 
-## Getting job done
+## How it works
 
-Add `app.UseLogContext()` in the beginning of request pipeline in `Startup.cs`
+SharpLogContext adds static class `LogContext` with `AsyncLocal` rot context.<br/><br/>
+Initialize it by calling `LogContext.Initialize()`.<br/><br/>
+After that, you can access log items anywhere the `Initialize` method.<br/><br/>
+Unlike logging scopes, sharing values only with the underlying calls, `LogContext` items can be accessed from the outside, even in exception handlers and .NET Core middleware.
 ```csharp
-public void Configure(IApplicationBuilder app)
+public void Foo()
 {
-    app.UseLogContext();
-    ...
-}
-```
-
-Add log items anywhere in your code
-
-```csharp
-public class FooController : ControllerBase
-{
-    [HttpGet]
-    public void Get()
+    LogContext.Initialize();
+    try
     {
-        LogContext.Current.AttachValue("foo", true);
+        LogContext.Current.AddScoped("foo", true);
+        _logger.LogInfo("foo"); //attaches "foo: true" to log state
+        throw new Exception();
     }
-}
-```
-
-Access your log items anywhere you want. Unlike logging scopes, sharing values only with the underlying calls, `LogContext` items can be accessed from the outside, even in the middleware.
-```csharp
-public class FooMiddleware
-{
-    private readonly RequestDelegate _next;
-    public FooMiddleware(RequestDelegate next)
+    catch(Exception ex)
     {
-        _next = next;
-    }
-
-    public async Task Invoke(HttpContext context)
-    {
-        await _next(context);
-        var foo = LogContext.Current.GetValue("foo");
+        _logger.LogErrorScoped(ex); //also attaches "foo: true" to log state
     }
 }
 ```
 
 ## Log it!
-Extract `LogContext` items when you need to log them
+Use `SharpLogContext` logger extensions methods to attach log context items to your log messages.
+They end up with `Scoped` suffix;
 ```csharp
 using Microsoft.Extensions.Logging;
-...
+using SharpLogContext;
+..
 
 private readonly ILogger _logger;
 
-...
-var logContextValues = LogContext.Current.GetValues();
-_logger.Log(logLevel: LogLevel.Info, eventId: 1, state: logContextValues, exception: null,
-                formatter: (_, __) => "Log message");
+..
+_logger.LogInfoScoped("Log message");
+_logger.LogDebugScoped("Log message");
+```
+
+## Scopes
+Determine scope for particular log items, if you don't want them to be visible from the outer space.
+Use `LogContext.Current.CreateScope()` method;
+
+```csharp
+LogContext.Current.Add("1", 1);
+using (LogContext.Current.CreateScope("2", 2))
+{
+    Console.WriteLine(LogContext.Current.GetValues());
+    //Returns {"1", 1}, {"2", 2}
+}
+Console.WriteLine(LogContext.Current.GetValues());
+//Returns {"1", 1}
 ```
 
 ## Print your log items pretty 
@@ -85,19 +82,46 @@ _logger.Log(logLevel: LogLevel.Info, eventId: 1, state: logContextValues, except
   </rules>
 </nlog>
 ```
+## SharpLogContext.NetCore
 
-## Scopes
-Determine scope for particular log items, if you don't want them to be visible from the outer space.
+Add `app.UseLogContext()` in the beginning of request pipeline in `Startup.cs`
+```csharp
+public void Configure(IApplicationBuilder app)
+{
+    app.UseLogContext();
+    ...
+}
+```
+
+Add log items anywhere in your controllers
 
 ```csharp
-LogContext.Current.AttachValue("1", 1);
-using (LogContext.Current.CreateScope("2", 2))
+public class FooController : ControllerBase
 {
-    Console.WriteLine(LogContext.Current.GetValues());
-    //Returns {"1", 1}, {"2", 2}
+    [HttpGet]
+    public void Get()
+    {
+        LogContext.Current.Add("foo", true);
+    }
 }
-Console.WriteLine(LogContext.Current.GetValues());
-//Returns {"1", 1}
+```
+
+Access your log items in the middleware
+```csharp
+public class FooMiddleware
+{
+    private readonly RequestDelegate _next;
+    public FooMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
+    public async Task Invoke(HttpContext context)
+    {
+        await _next(context);
+        var foo = LogContext.Current["foo"];
+    }
+}
 ```
 
 # SharpLogContext.MassTransit
@@ -128,7 +152,7 @@ class FooConsumer : IConsumer<Foo>
 {
     public async Task Consume(ConsumeContext<Foo> context)
     {
-        LogContext.Current.AttachValue("foo", 1);
+        LogContext.Current.Add("foo", 1);
     }
 }
 ```

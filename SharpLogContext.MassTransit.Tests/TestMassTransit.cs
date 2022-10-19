@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MassTransit;
+
 using MassTransit.Testing;
 using NUnit.Framework;
 
@@ -61,32 +61,4 @@ namespace SharpLogContext.MassTransit.Tests
             }
         }
     }
-
-    public interface IExpectedContext
-    {
-        KeyValuePair<string, object>[] ExpectedValues { get; set; }
-        int EventIndex { get; set; }
-    }
-
-
-    class ExpectedContextConsumer :
-        IConsumer<IExpectedContext>
-    {
-        public async Task Foo()
-        {
-            LogContext.Current.AttachValue(TestMassTransit.Pair1);
-            await Task.CompletedTask;
-        }
-        public async Task Consume(ConsumeContext<IExpectedContext> context)
-        {
-            await Foo();
-            LogContext.Current.AttachValue(TestMassTransit.Pair2);
-            var actualValues = LogContext.Current.GetValues();
-            var expectedValues = context.Message.ExpectedValues;
-            CollectionAssert.AreEquivalent(expectedValues, actualValues);
-            var e = TestMassTransit.Events[context.Message.EventIndex];
-            e.Set();
-        }
-    }
-
 }

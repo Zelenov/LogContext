@@ -14,7 +14,9 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: |
+          3.1.x
+          6.0.x
     - name: Install dependencies
       run: dotnet restore
     - name: Build
@@ -23,28 +25,25 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: publish SharpLogContext on version change
       id: publish_nuget_1
-      uses: rohith/publish-nuget@v2
+      uses: alirezanet/publish-nuget@v3.0.0
       with:
-        # Filepath of the project to be packaged, relative to root of repository
         PROJECT_FILE_PATH: SharpLogContext/SharpLogContext.csproj
-
-        # API key to authenticate with NuGet server
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+        INCLUDE_SYMBOLS: true
+        NO_BUILD: true
     - name: publish SharpLogContext.MassTransit on version change
       id: publish_nuget_2
-      uses: rohith/publish-nuget@v2
+      uses: alirezanet/publish-nuget@v3.0.0
       with:
-        # Filepath of the project to be packaged, relative to root of repository
         PROJECT_FILE_PATH: SharpLogContext.MassTransit/SharpLogContext.MassTransit.csproj
-
-        # API key to authenticate with NuGet server
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+        INCLUDE_SYMBOLS: true
+        NO_BUILD: true
     - name: publish SharpLogContext.NetCore on version change
       id: publish_nuget_3
-      uses: rohith/publish-nuget@v2
+      uses: alirezanet/publish-nuget@v3.0.0
       with:
-        # Filepath of the project to be packaged, relative to root of repository
         PROJECT_FILE_PATH: SharpLogContext.NetCore/SharpLogContext.NetCore.csproj
-
-        # API key to authenticate with NuGet server
         NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+        INCLUDE_SYMBOLS: true
+        NO_BUILD: true

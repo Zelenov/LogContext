@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -10,20 +11,20 @@ namespace SharpLogContext.Tests
     public class TestLogContext
     {
         [Test]
-        public async Task AttachValue_AsyncTask_ReturnsInitial()
+        public async Task Add_AsyncTask_ReturnsInitial()
         {
-            LogContext.CreateNewLogContext();
+            LogContext.Initialize();
             var pair1 = new KeyValuePair<string, object>("1", 1);
             var pair2 = new KeyValuePair<string, object>("2", 2);
 
             async Task Foo()
             {
                 await Task.CompletedTask;
-                LogContext.Current.AttachValue(pair2);
+                LogContext.Current.Add(pair2);
                 await Task.CompletedTask;
             }
 
-            LogContext.Current.AttachValue(pair1);
+            LogContext.Current.Add(pair1);
             await Foo();
             var actualValues = LogContext.Current.GetValues();
             var expectedValues = new[] {pair1, pair2};
@@ -31,36 +32,36 @@ namespace SharpLogContext.Tests
         }
 
         [Test]
-        public async Task AttachValue_AsyncTaskOuterScope_DoesntGoToOuterScope()
+        public async Task Add_AsyncTaskOuterScope_DoesntGoToOuterScope()
         {
-            LogContext.Clear();
+            LogContext.Release();
             var pair1 = new KeyValuePair<string, object>("1", 1);
             var pair2 = new KeyValuePair<string, object>("2", 2);
 
             async Task Foo()
             {
                 await Task.CompletedTask;
-                LogContext.Current.AttachValue(pair2);
+                LogContext.Current.Add(pair2);
                 await Task.CompletedTask;
             }
 
             await Foo();
-            LogContext.Current.AttachValue(pair1);
+            LogContext.Current.Add(pair1);
             var actualValues = LogContext.Current.GetValues();
             var expectedValues = new[] {pair1};
             CollectionAssert.AreEquivalent(expectedValues, actualValues);
         }
 
         [Test]
-        public void AttachValue_AsyncTaskLevels_DoesntGoToOuterScope()
+        public void Add_AsyncTaskLevels_DoesntGoToOuterScope()
         {
-            LogContext.Clear();
+            LogContext.Release();
             var pair1 = new KeyValuePair<string, object>("1", 1);
 
             async Task Thing1()
             {
                 await Thing2();
-                CollectionAssert.AreEquivalent(new KeyValuePair<string, object>[0], LogContext.Current.GetValues());
+                CollectionAssert.AreEquivalent(Array.Empty<KeyValuePair<string, object>>(), LogContext.Current.GetValues());
             }
 
             async Task Thing2()
@@ -72,7 +73,7 @@ namespace SharpLogContext.Tests
 
             void SetValue()
             {
-                LogContext.Current.AttachValue(pair1);
+                LogContext.Current.Add(pair1);
             }
 
             Thing1().GetAwaiter().GetResult();
@@ -80,20 +81,20 @@ namespace SharpLogContext.Tests
         }
 
         [Test]
-        public void AttachValue_AsyncVoid_ReturnsInitial()
+        public void Add_AsyncVoid_ReturnsInitial()
         {
-            LogContext.CreateNewLogContext();
+            LogContext.Initialize();
             var pair1 = new KeyValuePair<string, object>("1", 1);
             var pair2 = new KeyValuePair<string, object>("2", 2);
 
             async void Foo()
             {
                 await Task.CompletedTask;
-                LogContext.Current.AttachValue(pair2);
+                LogContext.Current.Add(pair2);
                 await Task.CompletedTask;
             }
 
-            LogContext.Current.AttachValue(pair1);
+            LogContext.Current.Add(pair1);
             Foo();
             var actualValues = LogContext.Current.GetValues();
             var expectedValues = new[] {pair1, pair2};
@@ -101,20 +102,20 @@ namespace SharpLogContext.Tests
         }
 
         [Test]
-        public void AttachValue_SameContext_ReturnsInitial()
+        public void Add_SameContext_ReturnsInitial()
         {
-            var context = LogContext.CreateNewLogContext();
+            var context = LogContext.Initialize();
             var pair = new KeyValuePair<string, object>("1", 1);
-            context.AttachValue(pair);
+            context.Add(pair);
             var actualValues = context.GetValues();
             var expectedValues = new[] {pair};
             Assert.AreEqual(expectedValues, actualValues);
         }
 
         [Test]
-        public void AttachValue_Thread_ReturnsInitial()
+        public void Add_Thread_ReturnsInitial()
         {
-            LogContext.CreateNewLogContext();
+            LogContext.Initialize();
             var pair1 = new KeyValuePair<string, object>("1", 1);
             var pair2 = new KeyValuePair<string, object>("2", 2);
 
@@ -124,10 +125,10 @@ namespace SharpLogContext.Tests
             var thread = new Thread(() =>
             {
                 threadId2 = Thread.CurrentThread.ManagedThreadId;
-                LogContext.Current.AttachValue(pair2);
+                LogContext.Current.Add(pair2);
                 e.Set();
             });
-            LogContext.Current.AttachValue(pair1);
+            LogContext.Current.Add(pair1);
             thread.Start();
             e.WaitOne();
             var actualValues = LogContext.Current.GetValues();
@@ -137,18 +138,18 @@ namespace SharpLogContext.Tests
         }
 
         [Test]
-        public async Task AttachValue_ThreadPool_ReturnsInitial()
+        public async Task Add_ThreadPool_ReturnsInitial()
         {
-            LogContext.CreateNewLogContext();
+            LogContext.Initialize();
             var pair1 = new KeyValuePair<string, object>("1", 1);
             var pair2 = new KeyValuePair<string, object>("2", 2);
 
             void Foo()
             {
-                LogContext.Current.AttachValue(pair2);
+                LogContext.Current.Add(pair2);
             }
 
-            LogContext.Current.AttachValue(pair1);
+            LogContext.Current.Add(pair1);
             await Task.Factory.StartNew(Foo);
             var actualValues = LogContext.Current.GetValues();
             var expectedValues = new[] {pair1, pair2};

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
+
 using SharpLogContext.NetCore;
 
+// ReSharper disable once CheckNamespace
 namespace SharpLogContext
 {
     public static class ApplicationBuilderExtensions

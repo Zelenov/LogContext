@@ -7,7 +7,7 @@ namespace SharpLogContext.MassTransit
     {
         public Task PreReceive(ReceiveContext context)
         {
-            LogContext.CreateNewLogContext();
+            LogContext.Initialize();
             return Task.CompletedTask;
         }
 

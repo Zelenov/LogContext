@@ -14,7 +14,7 @@ namespace SharpLogContext.NetCore
 
         public Task Invoke(HttpContext context)
         {
-            LogContext.CreateNewLogContext();
+            LogContext.Initialize();
             return _next.Invoke(context);
         }
     }

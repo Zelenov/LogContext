@@ -10,10 +10,10 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <PackageProjectUrl>https://github.com/Zelenov/SharpLogContext</PackageProjectUrl>
-    <Version>7.0.4.0</Version>
+    <Version>7.0.5</Version>
     <Authors>Evgeny Zelenov</Authors>
-    <Description>Stores log data throughout mass transit ConsumeContext</Description>
-    <PackageTags>asynclocal, log, context, scope, .net core, data, masstransit, rabbitmq, message, bus, ConsumeContext</PackageTags>
+    <Description>Automatically inititalizes SharpLogContext on every MassTransit message event</Description>
+    <PackageTags>log, context, scope, ILogger, CreateScope, masstransit, rabbitmq, message, bus, ConsumeContext</PackageTags>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Copyright>Evgeny Zelenov</Copyright>
@@ -37,8 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SharpLogContext" Version="0.0.2" />
     <PackageReference Include="MassTransit" Version="7.0.3" />
+    <PackageReference Include="SharpLogContext" Version="3.0.0" />
   </ItemGroup>
 
 </Project>

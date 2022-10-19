@@ -1,6 +1,9 @@
 ﻿using MassTransit;
 
-namespace SharpLogContext.MassTransit
+using SharpLogContext.MassTransit;
+
+// ReSharper disable once CheckNamespace
+namespace SharpLogContext
 {
     public static class BusControlExtensions
     {

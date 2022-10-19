@@ -1,4 +1,20 @@
 # Changelog
+
+## SharpLogContext.MassTransit V7.0.5
+### Added
+SharpLogContext V3.0.0 support
+
+## SharpLogContext.NetCore V2.0.1
+### Fixed
+SharpLogContext V3.0.0 support
+
+## SharpLogContext V3.0.0
+Full rewrite
+
+## SharpLogContext.NetCore V2.0.1
+### Fixed
+IDictionary interface
+
 ## SharpLogContext.MassTransit V7.0.4
 ### Added
 IBusFactoryConfigurator.AddLogContext
