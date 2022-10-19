@@ -16,19 +16,16 @@ SharpLogContext adds static class `LogContext` with `AsyncLocal` root context.<b
 
 Unlike logging scopes, sharing values only with the underlying calls, `LogContext` items can be accessed from the outside, even in exception handlers and .NET Core middleware.
 ```csharp
-public void Foo()
+LogContext.Initialize();
+try
 {
-    LogContext.Initialize();
-    try
-    {
-        LogContext.Current.AddScoped("foo", true);
-        _logger.LogInfo("foo"); //attaches "foo: true" to log state
-        throw new Exception();
-    }
-    catch(Exception ex)
-    {
-        _logger.LogErrorScoped(ex); //also attaches "foo: true" to log state
-    }
+    LogContext.Current.AddScoped("foo", true);
+    _logger.LogInfo("foo"); //attaches "foo: true" to log state
+    throw new Exception();
+}
+catch(Exception ex)
+{
+    _logger.LogErrorScoped(ex); //also attaches "foo: true" to log state
 }
 ```
 
