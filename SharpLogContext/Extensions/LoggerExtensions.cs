@@ -1,7 +1,6 @@
 using System;
 
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Internal;
 
 namespace SharpLogContext;
 
@@ -10,7 +9,6 @@ namespace SharpLogContext;
 /// </summary>
 public static class LoggerExtensions
 {
-    private static readonly Func<FormattedLogValues, Exception, string> _messageFormatter = MessageFormatter;
     //------------------------------------------DEBUG------------------------------------------//
 
     /// <summary>
@@ -390,12 +388,6 @@ public static class LoggerExtensions
         }
 
         using var scope = logger.BeginScope(LogContext.Current.GetValues());
-        logger.Log(logLevel, eventId, new FormattedLogValues(message, args), exception, _messageFormatter);
-    }
-
-    //------------------------------------------HELPERS------------------------------------------//
-    private static string MessageFormatter(FormattedLogValues state, Exception error)
-    {
-        return state.ToString();
+        logger.Log(logLevel, eventId, exception, message, args);
     }
 }

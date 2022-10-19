@@ -1,5 +1,9 @@
 # Changelog
 
+## SharpLogContext V3.0.2
+### Changed
+`Microsoft.Extensions.Logging.Abstractions` updated to `3.1.0`
+
 ## SharpLogContext V3.0.1
 ### Added
 LogContext.CreateScope() method without parameters

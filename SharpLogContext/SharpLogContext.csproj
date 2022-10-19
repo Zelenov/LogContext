@@ -5,7 +5,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <PackageProjectUrl>https://github.com/Zelenov/SharpLogContext</PackageProjectUrl>
-    <Version>3.0.1</Version>
+    <Version>3.0.2</Version>
     <Authors>Evgeny Zelenov</Authors>
     <Description>Encapsulates Microsoft's logger scopes mechanism, giving more freedom in scopes' lifetime management</Description>
     <PackageTags>log, context, scope, ILogger, CreateScope</PackageTags>
@@ -38,6 +38,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.0" />
   </ItemGroup>
 </Project>
