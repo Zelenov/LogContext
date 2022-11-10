@@ -10,6 +10,12 @@ namespace SharpLogContext.Tests
     [SingleThreaded]
     public class TestLogContext
     {
+        [SetUp]
+        public void SetUp()
+        {
+            LogContext.Release();
+        }
+
         [Test]
         public async Task Add_AsyncTask_ReturnsInitial()
         {

@@ -13,10 +13,10 @@ namespace SharpLogContext;
 /// Remember to call <see cref="Initialize"/>
 /// to initialize async-local value
 /// </summary>
-public class LogContext: ILogContext, IScopeConstructor, IGlobalLogContext
+public class LogContext : ILogContext, IScopeConstructor, IGlobalLogContext
 {
     private static readonly object Lock = new();
-    private static readonly AsyncLocal<LogContext> CurrentLogContext = new ();
+    private static readonly AsyncLocal<LogContext> CurrentLogContext = new();
     private readonly ILogContextScopeChain _scopeChain = new LoggerContextScopeChain();
     private readonly ILogContext _rootLogContext;
 
@@ -24,6 +24,11 @@ public class LogContext: ILogContext, IScopeConstructor, IGlobalLogContext
     {
         _rootLogContext = new ScopedLogContext(_scopeChain);
     }
+
+    /// <summary>
+    /// Current log context
+    /// </summary>
+    public static LogContext Current => Initialize();
 
     /// <summary>
     /// Clears async-local context variable
@@ -37,33 +42,31 @@ public class LogContext: ILogContext, IScopeConstructor, IGlobalLogContext
     }
 
     /// <summary>
-    /// Current log context
-    /// </summary>
-    public static LogContext Current
-    {
-        get
-        {
-            lock (Lock)
-            {
-                var logContext = CurrentLogContext.Value;
-                if (logContext == null)
-                    CurrentLogContext.Value = logContext = new LogContext();
-                return logContext;
-            }
-        }
-    }
-
-    /// <summary>
     /// Initialize <see cref="Current"/> context async-locally
     /// </summary>
     /// <returns></returns>
     public static LogContext Initialize()
     {
+        var value = CurrentLogContext.Value;
+
+        if (value != null)
+            return value;
+
         lock (Lock)
         {
-            var logContext = new LogContext();
-            CurrentLogContext.Value = logContext;
-            return logContext;
+            CurrentLogContext.Value ??= new LogContext();
+            return CurrentLogContext.Value;
+        }
+    }
+    
+    public static bool IsInitialized
+    {
+        get
+        {
+            lock (Lock)
+            {
+                return CurrentLogContext.Value != null;
+            }
         }
     }
 

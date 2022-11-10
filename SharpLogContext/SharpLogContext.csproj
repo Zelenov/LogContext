@@ -5,7 +5,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageIconUrl />
     <PackageProjectUrl>https://github.com/Zelenov/SharpLogContext</PackageProjectUrl>
-    <Version>3.0.2</Version>
+    <Version>3.0.3</Version>
     <Authors>Evgeny Zelenov</Authors>
     <Description>Encapsulates Microsoft's logger scopes mechanism, giving more freedom in scopes' lifetime management</Description>
     <PackageTags>log, context, scope, ILogger, CreateScope</PackageTags>

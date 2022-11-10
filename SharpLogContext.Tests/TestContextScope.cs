@@ -9,6 +9,11 @@ namespace SharpLogContext.Tests
     [TestFixture]
     public class TestContextScope
     {
+        [SetUp]
+        public void SetUp()
+        {
+            LogContext.Release();
+        }
 
         [Test]
         public void CreateScope_ReturnsInitialValues()
